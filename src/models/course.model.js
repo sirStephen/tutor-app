@@ -3,8 +3,8 @@ const Schema = mongoose.Schema;
 
 const courseSchema = new Schema(
     {
-        course: String,
-        track: String,
+        course: { type: String, required: true },
+        track: { type: String, required: true },
     }
 );
 
