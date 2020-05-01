@@ -15,4 +15,6 @@ mongoose
     .then(() => console.log("Successfully connect to MongoDB."))
     .catch(err => console.error("Connection error", err));
 
-server.listen(port, () => console.log(`Example app listening at http://localhost:${port}`));
+mongoose.set('useCreateIndex', true);
+
+server.listen(port, () => console.log(`App listening at http://localhost:${port}`));
