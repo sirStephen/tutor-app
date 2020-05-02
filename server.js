@@ -10,7 +10,7 @@ const server = http.createServer(app);
 mongoose
     .connect(`mongodb+srv://sir_gregg:${process.env.MONGO_ATLAS_PW}@tutor-app-rxsot.mongodb.net/test?retryWrites=true&w=majority`, {
         useNewUrlParser: true,
-        useUnifiedTopology: true
+        useUnifiedTopology: false, // revert to true
     })
     .then(() => console.log("Successfully connect to MongoDB."))
     .catch(err => console.error("Connection error", err));
