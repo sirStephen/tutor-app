@@ -122,3 +122,41 @@ exports.allUsers = (req, res) => {
             });
         });
 }
+
+// controller - delete user
+exports.deleteUser = (req, res) => {
+    const { id } = req.params;
+
+    User.find({ _id: id })
+        .then(user => {
+            if (user.length < 1) {
+                res.status(404).json({
+                    message: 'Invalid user'
+                })
+                return;
+            } else {
+                // console.log(user.length)
+                User.deleteOne({ _id: id })
+                .then(user => {
+                    if (user) {
+                        res.status(200).json({
+                            message: `User deleted successfully`,
+                        });
+                        return;
+                    }
+                })
+                .catch(err => {
+                    res.status(500).json({
+                        message: 'Internal error',
+                        err
+                    });
+                });
+            }
+        })
+        .catch(err => {
+            res.status(404).json({
+                message: 'Not found',
+                err
+            });
+        });
+}
