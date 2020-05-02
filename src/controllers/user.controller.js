@@ -3,6 +3,7 @@ const User = require('../models/user.model');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
+// controllers - create users
 exports.createUser = (req, res) => {
     let { password, confirmPassword, email, role, adminFlag } = req.body;
     
@@ -57,6 +58,7 @@ exports.createUser = (req, res) => {
     }
 }
 
+// controllers - login users
 exports.loginUser = (req, res) => {
     let { email, password } = req.body;
     
@@ -107,3 +109,16 @@ exports.loginUser = (req, res) => {
         });
 }
 
+// controller - get all users
+exports.allUsers = (req, res) => {
+    User.find()
+        .then(result => {
+            res.status(200).json(result);
+        })
+        .catch(err => {
+            console.log(err)
+            res.status(500).json({
+                error: err
+            });
+        });
+}
