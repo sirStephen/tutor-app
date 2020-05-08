@@ -18,6 +18,6 @@ app.use('/v1', user);
 app.use('/v1', tutor);
 app.use('/v1', category)
 
-app.get('/', (req, res) => res.send('Hello World!'))
+app.get('/', (req, res) => res.send('Online Tutor App'))
 
 module.exports = app;
