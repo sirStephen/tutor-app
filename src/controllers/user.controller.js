@@ -5,9 +5,9 @@ const jwt = require('jsonwebtoken');
 
 // controllers - create users
 exports.createUser = (req, res) => {
-    let { password, confirmPassword, email, role, adminFlag } = req.body;
+    let { password, confirmPassword, email, role } = req.body;
     
-    if (!email || !password || !confirmPassword || !role) {
+    if (!email || !password || !confirmPassword) {
         return res.status(400).json({
             message: "Please all fields are required"
        });
@@ -16,7 +16,7 @@ exports.createUser = (req, res) => {
     if (password === confirmPassword) {
         User.find({ email })
             .then(user => {
-                if (user) {
+                if (user.length >= 1) {
                     return res.status(409).json({
                         message: 'Email already exist',
                     });
@@ -27,8 +27,7 @@ exports.createUser = (req, res) => {
                                 {
                                     email: email,
                                     password: password,
-                                    role: role,
-                                    adminFlag: adminFlag,
+                                    role: role
                                 }
                             );
                             return user.save();
@@ -159,4 +158,10 @@ exports.deleteUser = (req, res) => {
                 err
             });
         });
+}
+
+exports.courseByUser = async (req, res) => {
+    const { id } = req.params;
+    const user = await User.findById(id).populate('courses');
+    res.json(user.courses);
 }
