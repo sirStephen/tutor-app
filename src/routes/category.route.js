@@ -5,6 +5,5 @@ const categoryController = require('../controllers/category.controller');
 
 router.get('/category', categoryController.allCategory);
 router.post('/category/create', categoryController.createCategory);
-// router.delete('/users/:id', userController.deleteUser);
 
 module.exports = router;
