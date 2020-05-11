@@ -19,6 +19,7 @@ const createCategory = async (req, res) => {
         .catch(err => console.log(err))
 }
 
+// get all category
 const allCategory = async (req, res) => {
     Category.find()
         .then(result => {
@@ -32,7 +33,25 @@ const allCategory = async (req, res) => {
         });
 }
 
+// retrieve course by category
+const retrieveCourseByCat = async (req, res) => {
+    const { id } = req.params;
+
+    try {
+        const courseByCat = await Category.findById(id).populate('courses');
+        res.json({
+            courseByCat
+        });
+    } catch (error) {
+        return res.json({
+            message: 'something went wrong',
+            error
+        });
+    }
+}
+
 module.exports = {
     createCategory,
-    allCategory
+    allCategory,
+    retrieveCourseByCat
 }
