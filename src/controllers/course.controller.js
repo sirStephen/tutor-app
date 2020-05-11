@@ -37,6 +37,7 @@ exports.createCourse = async (req, res) => {
     }
 }
 
+// get user by courses
 exports.userByCourse = async (req, res) => {
     const { id } = req.params;
     const userByCourse = await Course.findById(id).populate('tutor');
