@@ -1,9 +1,11 @@
 const Course = require('../models/course.model');
 const User = require('../models/user.model')
+const Category = require('../models/category.model');
 
 exports.createCourse = async (req, res) => {
     let { id } = req.params;
-
+    const { _id } = req.body;
+    
     let course = new Course (
         {
             course: req.body.course,
@@ -11,30 +13,28 @@ exports.createCourse = async (req, res) => {
     )
 
     try {
-        await course.save()
-            .then(result => {
-                return res.status(201).json({
-                    message: 'Successfully create course.',
-                    result,
-                });
-            })
-            .catch(err => {
-                return res.json(err)
-            })
-            
-        } catch (error) {
-            return res.json(error)
+        await course.save();
+        const findCategory = await Category.findById({ _id });
+        if (findCategory) {
+            findCategory.courses.push(course);
+            await findCategory.save();
         }
         
         const userById = await User.findById(id);
-    
-        userById.courses.push(course);
-        // userById.tutor.push(course);
-    
-        await userById.save();
-    
-        return res.json(userById);
-
+        if (userById) {
+            userById.courses.push(course);
+            await userById.save();
+            return res.status(201).json({
+                message: "Course created successfully",
+                course
+            })
+        }
+    } catch (error) {
+        console.log(error)
+        return res.json({
+            error
+        });
+    }
 }
 
 exports.userByCourse = async (req, res) => {
