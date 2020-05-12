@@ -7,5 +7,6 @@ router.get('/courses', courseController.allCourses);
 // router.post('/courses', courseController.createCourse);
 router.post('/courses/create/:id', courseController.createCourse);
 router.get('/courses/tutor/:id', courseController.userByCourse);
+router.get(`/courses/name/:course`, courseController.getCourseByName)
 
 module.exports = router;

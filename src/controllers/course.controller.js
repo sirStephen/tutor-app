@@ -46,6 +46,7 @@ exports.userByCourse = async (req, res) => {
     })
 }
 
+// get all courses
 exports.allCourses = (req, res) => {
     Course.find()
         .then(result => {
@@ -57,4 +58,35 @@ exports.allCourses = (req, res) => {
                 error: err
             });
         });
+}
+
+// get course by name
+exports.getCourseByName = async (req, res) => {
+    let { course } = req.params;
+    const escapeRegex = (text) => {
+        return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
+    };
+
+    const regex = new RegExp(escapeRegex(course), 'gi');
+
+    try {
+        const findByName = await Course.find({ 'course': regex }).sort({course:1});
+
+        if (findByName) {
+            return res.status(200).json({
+                message: 'Found courses',
+                findByName
+            });
+        } else {
+            return res.status(400).json({
+                message: 'No course was found',
+                findByName
+            });
+        }
+    } catch (error) {
+        return res.status(500).json({
+            message: 'Interna server error',
+            error
+        });
+    }
 }
