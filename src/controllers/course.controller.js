@@ -3,7 +3,9 @@ const User = require('../models/user.model')
 const Category = require('../models/category.model');
 
 exports.createCourse = async (req, res) => {
+    // users id
     let { id } = req.params;
+    // category id
     const { _id } = req.body;
     
     let course = new Course (
@@ -62,15 +64,10 @@ exports.allCourses = (req, res) => {
 
 // get course by name
 exports.getCourseByName = async (req, res) => {
-    let { course } = req.params;
-    const escapeRegex = (text) => {
-        return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
-    };
-
-    const regex = new RegExp(escapeRegex(course), 'gi');
+    let { name } = req.params;
 
     try {
-        const findByName = await Course.find({ 'course': regex }).sort({course:1});
+    const findByName = await Course.find({ course: {'$regex' : name, '$options' : 'i'} }).sort({course:1});
 
         if (findByName) {
             return res.status(200).json({
@@ -85,7 +82,34 @@ exports.getCourseByName = async (req, res) => {
         }
     } catch (error) {
         return res.status(500).json({
-            message: 'Interna server error',
+            message: 'Internal server error',
+            error
+        });
+    }
+}
+
+exports.updateCourse = async (req, res) => {
+    const { id } = req.params;
+    
+    try {
+        const findCourse = await Course.findById(id);
+
+        if (findCourse) {
+            findCourse.set(req.body);
+            const updateCourse = await findCourse.save();
+
+            return res.status(200).json({
+                message: `Course updated successfully`,
+                updateCourse,
+            });
+        } else {
+            return res.status(404).json({
+                message: `Course id not found`
+            });
+        }
+    } catch (error) {
+        return res.status(500).json({
+            message: 'Internal server error',
             error
         });
     }

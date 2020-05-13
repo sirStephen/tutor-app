@@ -5,9 +5,9 @@ const jwt = require('jsonwebtoken');
 
 // controllers - create users
 exports.createUser = (req, res) => {
-    let { password, confirmPassword, email, role } = req.body;
+    let { firstName, lastName, password, confirmPassword, email, role } = req.body;
     
-    if (!email || !password || !confirmPassword) {
+    if (!firstName || !lastName || !email || !password || !confirmPassword) {
         return res.status(400).json({
             message: "Please all fields are required"
        });
@@ -25,9 +25,11 @@ exports.createUser = (req, res) => {
                         .then(password => {
                             let user = new User (
                                 {
-                                    email: email,
-                                    password: password,
-                                    role: role
+                                    firstName,
+                                    lastName,
+                                    email,
+                                    password,
+                                    role
                                 }
                             );
                             return user.save();
@@ -164,4 +166,31 @@ exports.courseByUser = async (req, res) => {
     const { id } = req.params;
     const user = await User.findById(id).populate('courses');
     res.json(user.courses);
+}
+
+exports.getTutorByName = async (req, res) => {
+    let { firstName } = req.params;
+
+    try {
+    const findByName = await User.find({ firstName: {'$regex' : firstName, '$options' : 'i'}, role: 'tutor' }).sort({firstName:1});
+
+        if (findByName) {
+            console.log(findByName)
+            return res.status(200).json({
+                message: 'Found tutor',
+                findByName
+            });
+        } else {
+            return res.status(400).json({
+                message: 'No tutor was found',
+                findByName
+            });
+        }
+    } catch (error) {
+        console.log(error)
+        return res.status(500).json({
+            message: 'Internal server error',
+            error
+        });
+    }
 }
