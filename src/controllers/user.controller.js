@@ -194,3 +194,24 @@ exports.getTutorByName = async (req, res) => {
         });
     }
 }
+
+exports.getTutorById = (req, res) => {
+    const { id } = req.params;
+
+    User.find({_id: id, role: 'tutor'})
+        .then(result => {
+            if (result.length === 1) {
+                return res.status(200).json(result);
+            } else {
+                return res.status(404).json({
+                    message: 'Tutor not found'
+                })
+            }
+        })
+        .catch(err => {
+            console.log(err)
+            res.status(500).json({
+                error: err
+            });
+        });
+}
