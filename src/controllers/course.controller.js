@@ -32,7 +32,6 @@ exports.createCourse = async (req, res) => {
             })
         }
     } catch (error) {
-        console.log(error)
         return res.json({
             error
         });
@@ -55,7 +54,6 @@ exports.allCourses = (req, res) => {
             res.status(200).json(result);
         })
         .catch(err => {
-            console.log(err)
             res.status(500).json({
                 error: err
             });
@@ -88,6 +86,7 @@ exports.getCourseByName = async (req, res) => {
     }
 }
 
+// update course
 exports.updateCourse = async (req, res) => {
     const { id } = req.params;
     
@@ -114,3 +113,28 @@ exports.updateCourse = async (req, res) => {
         });
     }
 }
+
+// delete course
+exports.deleteCourse = async (req, res) => {
+    const { id } = req.params;
+    
+    try {
+        const deleteCourse = await Course.deleteOne({_id: id});
+
+        if (deleteCourse) {
+            return res.status(200).json({
+                message: `Course deleted successfully`,
+            });
+        } else {
+            return res.status(404).json({
+                message: `Course id not found`
+            });
+        }
+    } catch (error) {
+        return res.status(500).json({
+            message: 'Internal server error',
+            error
+        });
+    }
+}
+
