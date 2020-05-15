@@ -2,13 +2,19 @@ const express = require('express');
 const router = express.Router();
 
 const courseController = require('../controllers/course.controller');
+const checkAuth = require('../middleware/auth');
 
+// get all courses
 router.get('/courses', courseController.allCourses);
-// router.post('/courses', courseController.createCourse);
-router.post('/courses/create/:id', courseController.createCourse);
+// create cousrse by id
+router.post('/courses/create/:id', checkAuth.isAdmin, courseController.createCourse);
+// get user by course
 router.get('/courses/tutor/:id', courseController.userByCourse);
+// get course by name
 router.get('/courses/course/:name', courseController.getCourseByName);
-router.put('/courses/course/:id', courseController.updateCourse);
-router.delete('/courses/course/:id', courseController.deleteCourse);
+// update course
+router.put('/courses/course/:id', checkAuth.isAdmin, courseController.updateCourse);
+// delete course
+router.delete('/courses/course/:id', checkAuth.isAdmin, courseController.deleteCourse);
 
 module.exports = router;
