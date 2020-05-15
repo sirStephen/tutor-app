@@ -77,13 +77,17 @@ exports.loginUser = (req, res) => {
                     try {
                         if (result) {
                             const token = jwt.sign({ 
-                                email: user[0].email,
-                                userId: user[0]._id 
+                                data: {
+                                    email: user[0].email,
+                                    userId: user[0]._id, 
+                                    role: user[0].role
+                                }
                             }, process.env.JWT_KEY, {
                                 expiresIn: '1h'
                             });
                             res.status(200).json({
                                 message: `${req.body.email} logged in successfully`,
+                                role: user[0].role,
                                 token
                             });
                             return;
@@ -212,6 +216,29 @@ exports.getTutorById = (req, res) => {
             console.log(err)
             res.status(500).json({
                 error: err
+            });
+        });
+}
+
+exports.getAllTutors = (req, res) => {
+    User.find({ role: 'tutor' })
+        .then(result => {
+            console.log(result)
+            if (result) {
+                return res.status(200).json({
+                    message: 'list of all tutors',
+                    result
+                })
+            } else {
+                return res.status(404).json({
+                    message: 'no tutor'
+                })
+            }
+        })
+        .catch(err => {
+            res.status(500).json({
+                message: 'internal error',
+                err
             });
         });
 }
