@@ -6,6 +6,7 @@ const course = require('./routes/course.route');
 const user = require('./routes/user.route');
 const tutor = require('./routes/tutor.route');
 const category = require('./routes/category.route');
+const lesson = require('./routes/lesson.route');
 
 const app = express();
 
@@ -16,7 +17,8 @@ app.use(cors());
 app.use('/v1', course);
 app.use('/v1', user);
 app.use('/v1', tutor);
-app.use('/v1', category)
+app.use('/v1', category);
+app.use('/v1', lesson);
 
 app.get('/', (req, res) => res.send('Online Tutor App'))
 
