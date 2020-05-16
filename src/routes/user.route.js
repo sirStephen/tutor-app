@@ -11,12 +11,14 @@ router.get('/users/tutor/:firstName', userController.getTutorByName);
 // login
 router.post('/users/login', userController.loginUser);
 // create user
-router.post('/users/create', checkAuth.isAdmin, userController.createUser);
+router.post('/users/create', userController.createUser);
 // delete user
 router.delete('/users/:id', checkAuth.isAdmin, userController.deleteUser);
 // get user by id
 router.get('/users/tutors/:id', checkAuth.isAdmin, userController.getTutorById);
 // get all tutors
 router.get('/users/tutors', checkAuth.isAdmin, userController.getAllTutors);
+// update tutor
+router.put('/users/tutor/:id', userController.updateTutorFlag);
 
 module.exports = router;

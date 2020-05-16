@@ -26,6 +26,11 @@ const userSchema = new Schema(
             enum: ['student', 'tutor', 'admin'],
             default: 'student',
         },
+        adminFlag: {
+            type: String,
+            enum: ['n', 'y'],
+            default: 'n'
+        },
         courses : [
             {type: 
                 mongoose.Schema.Types.ObjectId,

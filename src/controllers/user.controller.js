@@ -5,7 +5,7 @@ const jwt = require('jsonwebtoken');
 
 // controllers - create users
 exports.createUser = (req, res) => {
-    let { firstName, lastName, password, confirmPassword, email, role } = req.body;
+    let { firstName, lastName, password, confirmPassword, email, role, adminFlag } = req.body;
     
     if (!firstName || !lastName || !email || !password || !confirmPassword) {
         return res.status(400).json({
@@ -29,7 +29,8 @@ exports.createUser = (req, res) => {
                                     lastName,
                                     email,
                                     password,
-                                    role
+                                    role,
+                                    adminFlag
                                 }
                             );
                             return user.save();
@@ -80,7 +81,8 @@ exports.loginUser = (req, res) => {
                                 data: {
                                     email: user[0].email,
                                     userId: user[0]._id, 
-                                    role: user[0].role
+                                    role: user[0].role,
+                                    adminFlag: user[0].adminFlag
                                 }
                             }, process.env.JWT_KEY, {
                                 expiresIn: '1h'
@@ -88,6 +90,7 @@ exports.loginUser = (req, res) => {
                             res.status(200).json({
                                 message: `${req.body.email} logged in successfully`,
                                 role: user[0].role,
+                                adminFlag: user[0].adminFlag,
                                 token
                             });
                             return;
@@ -220,6 +223,7 @@ exports.getTutorById = (req, res) => {
         });
 }
 
+// get all tutors
 exports.getAllTutors = (req, res) => {
     User.find({ role: 'tutor' })
         .then(result => {
@@ -241,4 +245,33 @@ exports.getAllTutors = (req, res) => {
                 err
             });
         });
+}
+
+// make tutor an admin
+exports.updateTutorFlag = async (req, res) => {
+    const { id } = req.params;
+    
+    try {
+        const findTutor = await User.findOneAndUpdate({ _id: id, role: 'tutor' }, {useFindAndModify: false});
+
+        if (findTutor) {
+            findTutor.set(req.body);
+            const updateTutor = await findTutor.save();
+
+            return res.status(200).json({
+                message: 'tutor updated successfully',
+                updateTutor
+            })
+        } else {
+            return res.status(404).json({
+                message: `tutor id not found`
+            });
+        }
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            message: 'Internal server error',
+            error
+        });
+    }
 }
