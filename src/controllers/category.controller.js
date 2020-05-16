@@ -8,7 +8,6 @@ const createCategory = async (req, res) => {
         }
     )
 
-    console.log(category)
     category.save()
         .then(category => {
             res.status(201).json({
@@ -16,7 +15,12 @@ const createCategory = async (req, res) => {
                 category,
             });
         })
-        .catch(err => console.log(err))
+        .catch(err => {
+            return res.status(500).json({
+                message: 'Internal error',
+                err,
+            });
+        });
 }
 
 // get all category
