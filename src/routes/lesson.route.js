@@ -11,5 +11,7 @@ router.get('/lessons/:id', lessonController.getLessonByID);
 router.get('/lessons', lessonController.getAllLesson);
 // update lesson by id
 router.get('/lessons/lesson/:id', lessonController.updateLessonByID);
+// delete lesson by id
+router.delete('/lessons/:id', lessonController.deleteLesson);
 
 module.exports = router;

@@ -20,12 +20,19 @@ exports.createLesson = async (req, res) => {
     try {
         await User.findById({ _id: id });
         await Course.find({ _id: courseID, course: courseName });
-        lesson.save();
+        const findGroup = await Lesson.find({ groupID });
 
-        return res.status(201).json({
-            message: 'lesson created successfully',
-            lesson
-        }); 
+        if (findGroup < 1) {
+            lesson.save();
+            return res.status(201).json({
+                message: 'lesson created successfully',
+                lesson
+            });
+        } else {
+            return res.json({
+                message: 'already created a lesson under this course'
+            })
+        }
     } catch (error) {
         return res.json({
             error
@@ -106,4 +113,27 @@ exports.getAllLesson = async (req, res) => {
                 err
             });
         });
+}
+
+exports.deleteLesson = async (req, res) => {
+    const { id } = req.params;
+    
+    try {
+        const deleteLesson = await Lesson.deleteOne({_id: id});
+
+        if (deleteLesson) {
+            return res.status(200).json({
+                message: `lesson deleted successfully`,
+            });
+        } else {
+            return res.status(404).json({
+                message: `lesson id not found`
+            });
+        }
+    } catch (error) {
+        return res.status(500).json({
+            message: 'Internal server error',
+            error
+        });
+    }
 }

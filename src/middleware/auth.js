@@ -7,7 +7,7 @@ const isAdmin = (req, res, next) => {
 
         console.log(decoded.data.role)
 
-        if (decoded.data.role !== 'admin') {
+        if (decoded.data.adminFlag !== 'y') {
             return res.status(401).json({
                 message: 'you are not authorized'
             })
