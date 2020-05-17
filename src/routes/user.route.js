@@ -18,7 +18,7 @@ router.delete('/users/:id', checkAuth.isAdmin, userController.deleteUser);
 router.get('/users/tutors/:id', checkAuth.isAdmin, userController.getTutorById);
 // get all tutors
 router.get('/users/tutors', checkAuth.isAdmin, userController.getAllTutors);
-// update tutor
-router.put('/users/tutor/:id', userController.updateTutorFlag);
+// update tutor flag
+router.put('/users/tutor/:id', checkAuth.isAdmin, userController.updateTutorFlag);
 
 module.exports = router;
