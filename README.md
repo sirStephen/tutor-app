@@ -174,3 +174,73 @@ API endpoint to update tutor's admin flag in the user collection.
 
 #### Example Response
 <img src='./img/updateuser.png'>
+
+### Courses Routes
+
+#### GET get courses
+
+API endpoint to fetch all courses in the course collection.
+
+    GET /v1/courses
+
+* A successful API request will return HTTP 200 status with a list of courses.
+
+#### Example Response
+<img src='./img/getcourses.png'>
+
+#### POST create course
+
+API endpoint for course registration in the course collection.
+
+    POST /v1/courses/create/:id (adminID) (PROTECTED)
+
+* A successful API request will return HTTP 201 status. Only an admin can perform this request.
+
+```
+{
+	"course": "Futher Maths",
+	"_id": "5ebded3e1a706c4a43daff57" (categoryID)
+}
+```
+
+#### Example Response
+<img src='./img/createcourse.png'>
+
+#### GET get course by name
+
+API endpoint to get courses by name in the course collection.
+
+    GET /v1/courses/course/:name
+
+* A successful API request to get courses with name in an ascending order which will return HTTP 200 status.
+
+#### Example Response
+<img src='./img/getcoursebyname.png'>
+
+#### PUT update course
+
+API endpoint to update course in the course collection.
+
+    PUT /v1/courses/course/:id (PROTECTED)
+
+* A successful API request will return HTTP 200 status. Only an admin can make this request.
+
+```
+{
+	"course": "Maths"
+}
+```
+
+#### Example Response
+<img src='./img/updatecourse.png'>
+
+#### DELETE delete course
+
+API endpoint to delete course in the course collection.
+
+    DELETE /v1/courses/course/:id (PROTECTED)
+
+* A successful API request will return HTTP 200 status. Only an admin can make this request.
+
+#### Example Response
+<img src='./img/delcourse.png'>
