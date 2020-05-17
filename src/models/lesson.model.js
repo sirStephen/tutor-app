@@ -1,27 +1,6 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-// const lessonSchema = new Schema(
-//     {
-//         user: {
-//             type: mongoose.Schema.Types.ObjectId, 
-//             ref: 'User'
-//         },
-//         description: {
-//             type: String,
-//             required: true,
-//         },
-//         courses: [{ 
-//             type: mongoose.Schema.Types.ObjectId, 
-//             ref: 'Course'
-//         }],
-//         category: [{ 
-//             type: mongoose.Schema.Types.ObjectId, 
-//             ref: 'Category' 
-//         }]
-//     }
-// );
-
 const lessonSchema = new Schema(
     {
         courseID: {

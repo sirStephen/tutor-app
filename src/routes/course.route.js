@@ -9,7 +9,7 @@ router.get('/courses', courseController.allCourses);
 // create cousrse by id
 router.post('/courses/create/:id', checkAuth.isAdmin, courseController.createCourse);
 // get user by course
-router.get('/courses/tutor/:id', courseController.userByCourse);
+// router.get('/courses/tutor/:id', courseController.userByCourse);
 // get course by name
 router.get('/courses/course/:name', courseController.getCourseByName);
 // update course
