@@ -59,8 +59,28 @@ const isStudent = (req, res, next) => {
     }
 }
 
+const isTutorOrAdmin = (req, res, next) => {
+    try {
+        const token = req.headers.authorization.split(' ')[1];
+        const decoded = jwt.decode(token);
+
+        if (decoded.data.role === 'student') {
+            return res.status(401).json({
+                message: 'you are not authorized'
+            })
+        }
+      
+        next();
+    } catch (error) {
+        return res.status(401).json({
+            message: 'auth failed'
+        })
+    }
+}
+
 module.exports = {
     isAdmin,
     isTutor,
-    isStudent
+    isStudent,
+    isTutorOrAdmin
 }
