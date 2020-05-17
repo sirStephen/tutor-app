@@ -11,7 +11,7 @@ router.get('/lessons/:id', lessonController.getLessonByID);
 // get all lesson
 router.get('/lessons', lessonController.getAllLesson);
 // update lesson by id
-router.get('/lessons/lesson/:id', lessonController.updateLessonByID);
+router.put('/lessons/lesson/:id', checkAuth.isTutor, lessonController.updateLessonByID);
 // delete lesson by id
 router.delete('/lessons/:id', checkAuth.isTutor, lessonController.deleteLesson);
 
