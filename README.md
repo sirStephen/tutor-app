@@ -245,6 +245,8 @@ API endpoint to delete course in the course collection.
 #### Example Response
 <img src='./img/delcourse.png'>
 
+### Lesson Routes
+
 #### POST create lesson
 
 API endpoint to create lesson in the lesson collection.
@@ -314,3 +316,47 @@ API endpoint to delete lesson in the lesson collection.
 
 #### Example Response
 <img src='./img/dellesson.png'>
+
+### Booking Routes
+
+#### POST book lesson
+
+API endpoint to book lesson in the book collection.
+
+    POST /v1/book/:id (PROTECTED)
+
+A successful API request will return HTTP 201 status. Only a student can perform this request.
+
+```
+{
+	"lessonID": "5ec1054a51bdc800173cdaad"
+}
+```
+
+#### Example Response
+<img src='./img/booklesson.png'>
+
+#### GET get bookings
+
+API endpoint to fetch all bookings in the book collection.
+
+    GET /v1/book (PROTECTED)
+
+* A successful API request will return HTTP 200 status with a list of bookings. Only admins and tutors can make the request.
+
+#### Example Response
+<img src='./img/allbooks.png'>
+
+## App Info
+
+### Author
+
+Gregory Otiono
+
+### Version
+
+1.0.0
+
+### License
+
+This project is licensed under the MIT License.
