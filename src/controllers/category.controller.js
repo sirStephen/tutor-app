@@ -48,7 +48,7 @@ const retrieveCourseByCat = async (req, res) => {
         });
     } catch (error) {
         return res.json({
-            message: 'something went wrong',
+            message: 'Internal error',
             error
         });
     }
