@@ -244,3 +244,73 @@ API endpoint to delete course in the course collection.
 
 #### Example Response
 <img src='./img/delcourse.png'>
+
+#### POST create lesson
+
+API endpoint to create lesson in the lesson collection.
+
+    POST /v1/lessons/create/:id (PROTECTED)
+
+* where :id = tutorID from the list of tutors available.
+* A successful API request will return HTTP 201 status. Only a tutor can perform this request.
+
+```
+{
+	"courseID": "5ec1051651bdc800173cdaac",
+	"desc": "Introduction to Futher Maths",
+	"courseName": "Futher Maths"
+}
+```
+
+#### Example Response
+<img src='./img/createles.png'>
+
+#### GET get all lessons
+
+API endpoint to fetch all lessons in the lesson collection.
+
+    GET /v1/lessons
+
+* A successful API request will return HTTP 200 status with a list of courses.
+
+#### Example Response
+<img src='./img/allcourse.png'>
+
+#### GET get a lesson
+
+API endpoint to fetch a lesson by ID in the lesson collection.
+
+    GET /v1/lessons/:id
+
+* A successful API request will return HTTP 200 status.
+
+#### Example Response
+<img src='./img/getlessonbyid.png'>
+
+#### PUT update lesson
+
+API endpoint to update lesson in the course collection.
+
+    PUT /v1/lessons/lesson/:id (PROTECTED)
+
+* A successful API request will return HTTP 200 status. Only a tutor can make this request.
+
+```
+{
+	"desc": "Introduction 101"
+}
+```
+
+#### Example Response
+<img src='./img/updatelesson.png'>
+
+#### DELETE delete request
+
+API endpoint to delete lesson in the lesson collection.
+
+    DELETE /v1/lessons/:id (PROTECTED)
+
+* A successful API request will return HTTP 200 status. Only a tutor can make this request.
+
+#### Example Response
+<img src='./img/dellesson.png'>
